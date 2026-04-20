@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,5 +23,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $categories = Category::factory()->count(10)->create();
+
+        Product::factory(100)
+            ->state(fn () => [
+                'category_id' => $categories->random()->id
+            ])
+            ->create();
     }
 }
